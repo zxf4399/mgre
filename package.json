@@ -1,0 +1,59 @@
+{
+    "name": "mgre",
+    "version": "1.0.0-development",
+    "description": "Manage Git repository easily",
+    "keywords": [
+        "cli",
+        "git",
+        "management",
+        "repository"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/zxf4399/mgre.git"
+    },
+    "license": "MIT",
+    "author": "zxf4399",
+    "imports": {
+        "#config": "./src/utils/config.mjs",
+        "#logger": "./src/utils/logger.mjs",
+        "#pkg": "./src/utils/pkg.mjs"
+    },
+    "module": "src/index.mjs",
+    "bin": {
+        "mgre": "./src/index.mjs"
+    },
+    "files": [
+        "src"
+    ],
+    "scripts": {
+        "dev": "node src/index.mjs",
+        "prepare": "husky install",
+        "semantic-release": "semantic-release",
+        "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest"
+    },
+    "dependencies": {
+        "@jest/globals": "^29.4.3",
+        "clipboardy": "^3.0.0",
+        "commander": "^10.0.0",
+        "git-url-parse": "^13.1.0",
+        "winston": "^3.8.2"
+    },
+    "devDependencies": {
+        "cross-env": "^7.0.3",
+        "eslint": "^8.34.0",
+        "eslint-config-airbnb-base": "^15.0.0",
+        "eslint-config-prettier": "^8.6.0",
+        "eslint-plugin-import": "^2.27.5",
+        "eslint-plugin-simple-import-sort": "^10.0.0",
+        "husky": "^8.0.3",
+        "jest": "^29.4.3",
+        "lint-staged": "^13.1.2",
+        "prettier": "^2.8.4",
+        "semantic-release": "^20.1.0"
+    },
+    "packageManager": "pnpm@7.26.3",
+    "engines": {
+        "node": ">=16.0.0"
+    }
+}

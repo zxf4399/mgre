@@ -1,0 +1,29 @@
+{
+    "env": {
+        "es2021": true,
+        "node": true
+    },
+    "extends": ["airbnb-base", "prettier"],
+    "overrides": [],
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "plugins": ["simple-import-sort"],
+    "rules": {
+        "camelcase": "off",
+        "class-methods-use-this": "off",
+        // https://github.com/import-js/eslint-plugin-import/issues/1810
+        "import/no-unresolved": "off",
+        "import/extensions": [
+            "error",
+            "never",
+            {
+                "mjs": "always"
+            }
+        ],
+        "indent": ["error", 4],
+        "simple-import-sort/exports": "error",
+        "simple-import-sort/imports": "error"
+    }
+}

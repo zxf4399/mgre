@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "#config": ["./src/utils/config.mjs"],
+            "#logger": ["./src/utils/logger.mjs"],
+            "#pkg": ["./src/utils/pkg.mjs"]
+        }
+    }
+}

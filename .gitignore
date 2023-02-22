@@ -1,0 +1,8 @@
+# pnpm
+node_modules
+
+# MacOS
+.DS_Store
+
+# jest
+coverage
