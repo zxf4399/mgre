@@ -4,25 +4,26 @@ on:
     push:
         branches:
             - main
+            - 1-integrate-semantic-release
 
 jobs:
     release:
         runs-on: ubuntu-latest
 
-        permissions:
-            packages: write
-            contents: write
-
         steps:
-            - uses: actions/checkout@v3
-            - uses: actions/setup-node@v3
+            - name: Checkout
+              uses: actions/checkout@v3
+            - name: "Setup Node.js"
+              uses: actions/setup-node@v3
               with:
                   node-version-file: ".nvmrc"
-            - uses: pnpm/action-setup@v2
+            - name: "Setup pnpm"
+              uses: pnpm/action-setup@v2
               with:
                   version: 7.26.3
                   run_install: true
             - name: "semantic-release"
               env:
-                  GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: pnpm semantic-release
