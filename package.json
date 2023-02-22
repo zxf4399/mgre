@@ -1,6 +1,6 @@
 {
     "name": "mgre",
-    "version": "1.0.0-development",
+    "version": "0.0.0-development",
     "description": "Manage Git repository easily",
     "keywords": [
         "cli",
