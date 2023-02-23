@@ -43,4 +43,6 @@ describe("clone", () => {
 
         expect(childProcessResult.stdout).toMatch("Failed to clone repository")
     })
+
+    // TODO clone user.name & user.email
 })
