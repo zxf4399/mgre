@@ -1,9 +1,9 @@
-import { execSync } from "node:child_process"
 import { existsSync, rmSync } from "node:fs"
 import { join } from "node:path"
 import { cwd } from "node:process"
 
 import { beforeEach, describe, expect, test } from "@jest/globals"
+import { execaSync } from "execa"
 
 import config from "#config"
 
@@ -19,25 +19,28 @@ beforeEach(() => {
 
 describe("clone", () => {
     test("Store the content of the Git repository in a directory with a standard name", () => {
-        execSync(`node ${CLI_PATH} clone https://github.com/zxf4399/mgre.git`, {
-            encoding: "utf-8",
-        })
+        execaSync("node", [
+            CLI_PATH,
+            "clone",
+            "https://github.com/zxf4399/mgre.git",
+        ])
 
         expect(existsSync(mgreDir)).toBeTruthy()
     })
 
     test("print a failure log when the standard name directory already exists ", () => {
-        execSync(`node ${CLI_PATH} clone https://github.com/zxf4399/mgre.git`, {
-            encoding: "utf-8",
-        })
+        execaSync("node", [
+            CLI_PATH,
+            "clone",
+            "https://github.com/zxf4399/mgre.git",
+        ])
 
-        const secondExec = execSync(
-            `node ${CLI_PATH} clone https://github.com/zxf4399/mgre.git`,
-            {
-                encoding: "utf-8",
-            }
-        )
+        const childProcessResult = execaSync("node", [
+            CLI_PATH,
+            "clone",
+            "https://github.com/zxf4399/mgre.git",
+        ])
 
-        expect(secondExec).toMatch("Failed to clone repository")
+        expect(childProcessResult.stdout).toMatch("Failed to clone repository")
     })
 })

@@ -36,6 +36,7 @@
         "@jest/globals": "^29.4.3",
         "clipboardy": "^3.0.0",
         "commander": "^10.0.0",
+        "execa": "^7.0.0",
         "git-url-parse": "^13.1.0",
         "winston": "^3.8.2"
     },

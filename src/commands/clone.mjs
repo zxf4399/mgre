@@ -1,7 +1,7 @@
-import { spawn } from "node:child_process"
 import { join } from "node:path"
 
 import clipboardy from "clipboardy"
+import { execa } from "execa"
 import GitUrlParse from "git-url-parse"
 
 import config from "#config"
@@ -29,30 +29,21 @@ export default class CloneCommand {
         )}`
     }
 
-    cloneRepo(repoUrl) {
+    async cloneRepo(repoUrl) {
         const repoDirName = this.generateRepoDirName(repoUrl)
 
-        const gitClone = spawn("git", [
-            "clone",
-            repoUrl,
-            repoDirName,
-            "--progress",
-        ])
-
-        gitClone.stderr.on("data", (data) => {
-            process.stdout.write(data)
-        })
-
-        gitClone.on("close", (code) => {
-            if (code !== 0) {
-                logger.error("Failed to clone repository")
-            } else {
-                clipboardy.writeSync(`cd ${repoDirName}`)
-                logger.info(
-                    "The path to the repository has been copied to your clipboard. You can now paste it into your terminal using CMD/CTRL + V."
-                )
-            }
-        })
+        await execa("git", ["clone", repoUrl, repoDirName, "--progress"])
+            .on("close", (code) => {
+                if (code !== 0) {
+                    logger.error("Failed to clone repository")
+                } else {
+                    clipboardy.writeSync(`cd ${repoDirName}`)
+                    logger.info(
+                        "The path to the repository has been copied to your clipboard. You can now paste it into your terminal using CMD/CTRL + V."
+                    )
+                }
+            })
+            .stderr.on("data", (data) => process.stdout.write(data))
     }
 
     run(repoUrl) {
