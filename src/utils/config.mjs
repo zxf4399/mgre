@@ -6,8 +6,8 @@ import logger from "#logger"
 
 class Config {
     static defaultConfig = {
-        root: join(homedir(), ".mgre"),
         filename: "config.json",
+        root: join(homedir(), ".mgre"),
     }
 
     static instance
