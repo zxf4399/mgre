@@ -4,8 +4,10 @@ import clipboardy from "clipboardy"
 import { execa } from "execa"
 import GitUrlParse from "git-url-parse"
 
-import config from "#config"
+import Config from "#config"
 import logger from "#logger"
+
+const config = Config.getInstance()
 
 export default class CloneCommand {
     static instance
@@ -18,11 +20,11 @@ export default class CloneCommand {
         return CloneCommand.instance
     }
 
-    generateRepodir(url) {
+    generateRepoDir(url) {
         const parsed = GitUrlParse(url)
 
         this.resource = parsed.resource
-        this.repodir = `${join(
+        this.repoDir = `${join(
             config.get("root"),
             this.resource,
             parsed.owner,
@@ -37,10 +39,10 @@ export default class CloneCommand {
 
         await Promise.all([
             execa("git", ["config", "--replace-all", "user.name", name], {
-                cwd: this.repodir,
+                cwd: this.repoDir,
             }),
             execa("git", ["config", "--replace-all", "user.email", email], {
-                cwd: this.repodir,
+                cwd: this.repoDir,
             }),
         ])
 
@@ -50,14 +52,14 @@ export default class CloneCommand {
     }
 
     async cloneRepo(repoUrl) {
-        this.generateRepodir(repoUrl)
+        this.generateRepoDir(repoUrl)
 
-        await execa("git", ["clone", repoUrl, this.repodir, "--progress"])
+        await execa("git", ["clone", repoUrl, this.repoDir, "--progress"])
             .on("close", async (code) => {
                 if (code !== 0) {
                     logger.error("Failed to clone repository")
                 } else {
-                    clipboardy.writeSync(`cd ${this.repodir}`)
+                    clipboardy.writeSync(`cd ${this.repoDir}`)
                     logger.info(
                         "The path to the repository has been copied to your clipboard. You can now paste it into your terminal using CMD/CTRL + V."
                     )

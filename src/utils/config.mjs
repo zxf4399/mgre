@@ -4,7 +4,7 @@ import { join } from "node:path"
 
 import logger from "#logger"
 
-class Config {
+export default class Config {
     static defaultConfig = {
         filename: "config.json",
         root: join(homedir(), ".mgre"),
@@ -52,7 +52,3 @@ class Config {
         return this.config[key]
     }
 }
-
-const config = Config.getInstance()
-
-export default config
