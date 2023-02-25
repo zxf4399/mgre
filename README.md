@@ -2,9 +2,8 @@
 
 ## Manage Git repository easily
 
-[![NPM version][npm-image]][npm-url]
-
-[npm-url]: https://npmjs.org/package/projj
+<a href="https://npmjs.com/package/mgre"><img src="https://img.shields.io/npm/v/mgre.svg" alt="npm package"></a>
+<a href="https://nodejs.org/en/about/releases/"><img src="https://img.shields.io/node/v/mgre.svg" alt="node compatibility"></a>
 
 ## Why mgre?
 
