@@ -73,3 +73,12 @@ If the cloning is successful:
 
 -   mgre will copy `cd <path>` to your clipboard, allowing you to quickly navigate to the repository.
 -   the repository will be configured with the correct username and email if `config.json` contain name and email fields for configuring codebases.
+
+## Inspiration
+
+-   [projj](https://github.com/popomore/projj)
+-   [tanyao](https://github.com/xn-sakina/tanyao)
+
+## License
+
+[MIT](LICENSE)
