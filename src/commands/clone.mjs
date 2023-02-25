@@ -37,18 +37,20 @@ export default class CloneCommand {
             .get("codebases")
             .find((codebase) => codebase.url === this.resource)
 
-        await Promise.all([
-            execa("git", ["config", "--replace-all", "user.name", name], {
-                cwd: this.repoDir,
-            }),
-            execa("git", ["config", "--replace-all", "user.email", email], {
-                cwd: this.repoDir,
-            }),
-        ])
+        if (name && email) {
+            await Promise.all([
+                execa("git", ["config", "--replace-all", "user.name", name], {
+                    cwd: this.repoDir,
+                }),
+                execa("git", ["config", "--replace-all", "user.email", email], {
+                    cwd: this.repoDir,
+                }),
+            ])
 
-        logger.info(
-            'Your codebase "user.name" and "user.email" have been set successfully.'
-        )
+            logger.info(
+                `Your configuration username and email of ${this.resource} has been set successfully for the repository.`
+            )
+        }
     }
 
     async cloneRepo(repoUrl) {
