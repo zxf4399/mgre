@@ -13,8 +13,6 @@
     "rules": {
         "camelcase": "off",
         "class-methods-use-this": "off",
-        // https://github.com/import-js/eslint-plugin-import/issues/1810
-        "import/no-unresolved": "off",
         "import/extensions": [
             "error",
             "never",
@@ -22,6 +20,9 @@
                 "mjs": "always"
             }
         ],
+        // https://github.com/import-js/eslint-plugin-import/issues/1810
+        "import/no-unresolved": "off",
+        "import/prefer-default-export": "off",
         "indent": ["error", 4],
         "simple-import-sort/exports": "error",
         "simple-import-sort/imports": "error"

@@ -4,10 +4,9 @@ import clipboardy from "clipboardy"
 import { execa } from "execa"
 import GitUrlParse from "git-url-parse"
 
-import Config from "#config"
+import config from "#config"
+import db from "#db"
 import logger from "#logger"
-
-const config = Config.getInstance()
 
 export default class CloneCommand {
     static instance
@@ -24,7 +23,7 @@ export default class CloneCommand {
         const parsed = GitUrlParse(url)
 
         this.resource = parsed.resource
-        this.repoDir = `${join(
+        this.repoLocalPath = `${join(
             config.get("root"),
             this.resource,
             parsed.owner,
@@ -40,10 +39,10 @@ export default class CloneCommand {
         if (name && email) {
             await Promise.all([
                 execa("git", ["config", "--replace-all", "user.name", name], {
-                    cwd: this.repoDir,
+                    cwd: this.repoLocalPath,
                 }),
                 execa("git", ["config", "--replace-all", "user.email", email], {
-                    cwd: this.repoDir,
+                    cwd: this.repoLocalPath,
                 }),
             ])
 
@@ -56,16 +55,17 @@ export default class CloneCommand {
     async cloneRepo(repoUrl) {
         this.generateRepoDir(repoUrl)
 
-        await execa("git", ["clone", repoUrl, this.repoDir, "--progress"])
+        await execa("git", ["clone", repoUrl, this.repoLocalPath, "--progress"])
             .on("close", async (code) => {
                 if (code !== 0) {
                     logger.error("Failed to clone repository")
                 } else {
-                    clipboardy.writeSync(`cd ${this.repoDir}`)
+                    clipboardy.writeSync(`cd ${this.repoLocalPath}`)
                     logger.info(
                         "The path to the repository has been copied to your clipboard. You can now paste it into your terminal using CMD/CTRL + V."
                     )
                     await this.setUserConfig()
+                    db.add(this.repoLocalPath)
                 }
             })
             .stderr.on("data", (data) => process.stdout.write(data))

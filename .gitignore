@@ -6,3 +6,6 @@ node_modules
 
 # jest
 coverage
+
+# sqlite3
+mgre.db
