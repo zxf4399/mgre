@@ -43,7 +43,7 @@ describe("find command", () => {
         const { stdout } = runFindCommand(MGRE)
 
         expect(stdout).toMatch(
-            `Can not find the repoLocalPath: ${MGRE} in the database.`
+            `Can not find the localRepoPath: ${MGRE} in the database.`
         )
     })
 })

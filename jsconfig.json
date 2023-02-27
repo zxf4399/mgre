@@ -2,6 +2,7 @@
     "compilerOptions": {
         "baseUrl": ".",
         "paths": {
+            "#constant": ["./src/utils/constant.mjs"],
             "#db": ["./src/utils/db.mjs"],
             "#env": ["./src/utils/env.mjs"],
             "#config": ["./src/utils/config.mjs"],

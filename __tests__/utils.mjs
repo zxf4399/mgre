@@ -3,14 +3,14 @@ import { cwd } from "node:process"
 
 import { execaSync } from "execa"
 
-import config from "#config"
+import { DEFAULT_CONFIG } from "#constant"
 
 const CLI_PATH = `${join(cwd(), "src", "index.mjs")}`
 
 export const MGRE = "zxf4399/mgre"
 
 export const MGRE_REPO_LOCAL_PATH = join(
-    config.get("root"),
+    DEFAULT_CONFIG.root,
     "github.com",
     "zxf4399",
     "mgre"
