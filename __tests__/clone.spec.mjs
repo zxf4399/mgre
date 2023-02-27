@@ -1,56 +1,25 @@
-import { existsSync, rmSync, writeFileSync } from "node:fs"
-import { join } from "node:path"
-import { cwd } from "node:process"
+import { existsSync } from "node:fs"
 
-import { beforeAll, beforeEach, describe, expect, test } from "@jest/globals"
+import { describe, expect, test } from "@jest/globals"
 import { execaSync } from "execa"
 
-import Config from "#config"
+import config from "#config"
 
-const config = Config.getInstance()
-const CLI_PATH = `${join(cwd(), "src", "index.mjs")}`
-const MGRE_GIT_REPO_URL = "https://github.com/zxf4399/mgre.git"
-const MGRE_REPO_DIR = join(config.get("root"), "github.com", "zxf4399", "mgre")
+import {
+    MGRE_GIT_REPO_URL,
+    MGRE_REPO_LOCAL_PATH,
+    runCloneCommand,
+} from "./utils.mjs"
 
-beforeAll(() => {
-    // TODO: backup the original config file and restore it after all tests
-    writeFileSync(
-        join(Config.defaultConfig.root, Config.defaultConfig.filename),
-        JSON.stringify(
-            {
-                codebases: [
-                    {
-                        email: "zxf4399@gmail.com",
-                        name: "zxf4399",
-                        url: "github.com",
-                    },
-                ],
-            },
-            null,
-            2
-        ),
-        "utf-8"
-    )
-})
-
-beforeEach(() => {
-    if (existsSync(MGRE_REPO_DIR)) {
-        rmSync(MGRE_REPO_DIR, { recursive: true, force: true })
-    }
-})
-
-const runCloneCommand = (repoUrl) =>
-    execaSync("node", [CLI_PATH, "clone", repoUrl])
-
-describe("clone", () => {
+describe("clone command", () => {
     test("Store the content of the Git repository in a directory with a standard name", () => {
         runCloneCommand(MGRE_GIT_REPO_URL)
-        expect(existsSync(MGRE_REPO_DIR)).toBeTruthy()
+        expect(existsSync(MGRE_REPO_LOCAL_PATH)).toBeTruthy()
     })
 
     test("the user git config is setted right when clone git repository successfully", () => {
         runCloneCommand(MGRE_GIT_REPO_URL)
-        execaSync("cd", [MGRE_REPO_DIR])
+        execaSync("cd", [MGRE_REPO_LOCAL_PATH])
 
         const { name, email } = config
             .get("codebases")

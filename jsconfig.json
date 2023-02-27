@@ -2,6 +2,8 @@
     "compilerOptions": {
         "baseUrl": ".",
         "paths": {
+            "#db": ["./src/utils/db.mjs"],
+            "#env": ["./src/utils/env.mjs"],
             "#config": ["./src/utils/config.mjs"],
             "#logger": ["./src/utils/logger.mjs"],
             "#pkg": ["./src/utils/pkg.mjs"]

@@ -4,27 +4,25 @@ import { join } from "node:path"
 
 import logger from "#logger"
 
-export default class Config {
-    static defaultConfig = {
+class Config {
+    defaultConfig = {
         filename: "config.json",
         root: join(homedir(), ".mgre"),
     }
 
-    static instance
-
-    static getUserConfig() {
+    getUserConfig() {
         let userConfig
         const configPath = join(
-            Config.defaultConfig.root,
-            Config.defaultConfig.filename
+            this.defaultConfig.root,
+            this.defaultConfig.filename
         )
 
         if (!existsSync(configPath)) {
             userConfig = {}
 
-            if (!existsSync(Config.defaultConfig.root)) {
+            if (!existsSync(this.defaultConfig.root)) {
                 logger.info("Creating root directory")
-                mkdirSync(Config.defaultConfig.root)
+                mkdirSync(this.defaultConfig.root)
             }
 
             logger.info("Creating config file")
@@ -36,19 +34,13 @@ export default class Config {
         return userConfig
     }
 
-    constructor(userConfig) {
-        this.config = { ...Config.defaultConfig, ...userConfig }
-    }
-
-    static getInstance() {
-        if (!Config.instance) {
-            Config.instance = new Config(Config.getUserConfig())
-        }
-
-        return Config.instance
+    constructor() {
+        this.config = { ...this.defaultConfig, ...this.getUserConfig() }
     }
 
     get(key) {
         return this.config[key]
     }
 }
+
+export default new Config()

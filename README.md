@@ -74,6 +74,18 @@ If the cloning is successful:
 -   mgre will copy `cd <path>` to your clipboard, allowing you to quickly navigate to the repository.
 -   the repository will be configured with the correct username and email if `config.json` contain name and email fields for configuring codebases.
 
+### Find a repository
+
+```bash
+mgre find zxf4399/mgre
+```
+
+If the repository is found:
+
+-   mgre will show the local path of the repository.
+
+// TODO: add image
+
 ## Inspiration
 
 -   [projj](https://github.com/popomore/projj)
