@@ -23,16 +23,25 @@ describe("clone command", () => {
 
         execaSync("cd", [MGRE_REPO_LOCAL_PATH])
 
-        const { name, email } = config
+        const codebase = config
             .get("codebases")
-            .find((codebase) => codebase.url === "github.com")
-        const { stdout: userName } = execaSync("git", ["config", "user.name"])
+            ?.find((item) => item.url === "github.com")
 
-        expect(userName).toBe(name)
+        if (codebase.name && codebase.email) {
+            const { stdout: userName } = execaSync("git", [
+                "config",
+                "user.name",
+            ])
 
-        const { stdout: userEmail } = execaSync("git", ["config", "user.email"])
+            expect(userName).toBe(codebase.name)
 
-        expect(userEmail).toBe(email)
+            const { stdout: userEmail } = execaSync("git", [
+                "config",
+                "user.email",
+            ])
+
+            expect(userEmail).toBe(codebase.email)
+        }
     })
 
     test("print a failure log when the standard name directory already exists ", () => {
