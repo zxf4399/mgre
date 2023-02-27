@@ -22,10 +22,12 @@ class Config {
 
             if (!existsSync(this.defaultConfig.root)) {
                 logger.info("Creating root directory")
+
                 mkdirSync(this.defaultConfig.root)
             }
 
             logger.info("Creating config file")
+
             writeFileSync(configPath, JSON.stringify(userConfig))
         } else {
             userConfig = JSON.parse(readFileSync(configPath, "utf-8"))

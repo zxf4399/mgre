@@ -14,6 +14,7 @@ import {
 
 beforeEach(async () => {
     rmSync(MGRE_REPO_LOCAL_PATH, { force: true, recursive: true })
+
     await db.remove(MGRE_REPO_LOCAL_PATH)
 })
 

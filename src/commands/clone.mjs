@@ -23,6 +23,7 @@ export default class CloneCommand {
         const parsed = GitUrlParse(url)
 
         this.resource = parsed.resource
+
         this.repoLocalPath = `${join(
             config.get("root"),
             this.resource,
@@ -61,10 +62,13 @@ export default class CloneCommand {
                     logger.error("Failed to clone repository")
                 } else {
                     clipboardy.writeSync(`cd ${this.repoLocalPath}`)
+
                     logger.info(
                         "The path to the repository has been copied to your clipboard. You can now paste it into your terminal using CMD/CTRL + V."
                     )
+
                     await this.setUserConfig()
+
                     db.add(this.repoLocalPath)
                 }
             })

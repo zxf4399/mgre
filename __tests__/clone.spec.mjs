@@ -14,11 +14,13 @@ import {
 describe("clone command", () => {
     test("Store the content of the Git repository in a directory with a standard name", () => {
         runCloneCommand(MGRE_GIT_REPO_URL)
+
         expect(existsSync(MGRE_REPO_LOCAL_PATH)).toBeTruthy()
     })
 
     test("the user git config is setted right when clone git repository successfully", () => {
         runCloneCommand(MGRE_GIT_REPO_URL)
+
         execaSync("cd", [MGRE_REPO_LOCAL_PATH])
 
         const { name, email } = config

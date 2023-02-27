@@ -30,6 +30,7 @@ function setUpProgram() {
 
 async function main() {
     await db.init()
+
     setUpProgram()
 }
 

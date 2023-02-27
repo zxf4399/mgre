@@ -39,6 +39,7 @@ afterAll(async () => {
 
     if (existsSync(BAK_FILE_PATH)) {
         rmSync(FILE_PATH, { force: true })
+
         renameSync(BAK_FILE_PATH, FILE_PATH)
     }
 })
