@@ -30,7 +30,7 @@
     ],
     "scripts": {
         "dev": "cross-env NODE_ENV=development node src/index.mjs",
-        "lint": "eslint --ext .mjs",
+        "lint": "eslint --ext .mjs --fix",
         "prepare": "husky install",
         "semantic-release": "semantic-release",
         "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest"
