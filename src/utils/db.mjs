@@ -7,6 +7,7 @@ const FILE_NAME = "mgre.db"
 class Database {
     async init() {
         await this.#connect()
+
         await this.#create()
     }
 
@@ -15,10 +16,12 @@ class Database {
             this.db = new sqlite3.Database(FILE_NAME, (err) => {
                 if (err) {
                     logger.error(err.message)
+
                     reject()
                 }
 
                 logger.debug("Connected to the database successfully.")
+
                 resolve()
             })
         })
@@ -29,10 +32,12 @@ class Database {
             this.db.close((err) => {
                 if (err) {
                     logger.error(err.message)
+
                     reject()
                 }
 
                 logger.debug("Disconnected from the database successfully.")
+
                 resolve()
             })
         })
@@ -49,10 +54,12 @@ class Database {
                 (err) => {
                     if (err) {
                         logger.error(err.message)
+
                         reject()
                     }
 
                     logger.debug("Created mgre table successfully.")
+
                     resolve()
                 }
             )
@@ -95,10 +102,12 @@ class Database {
                 (err, rows) => {
                     if (err) {
                         logger.error(err.message)
+
                         reject()
                     }
 
                     logger.debug("Get repoLocalPaths successfully.")
+
                     resolve(rows)
                 }
             )

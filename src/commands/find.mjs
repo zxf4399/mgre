@@ -23,10 +23,12 @@ class FindCommand {
                 logger.debug("User canceled the find prompt operation.")
 
                 cancel('Find canceled by user. Run "mgre find" to try again.')
+
                 process.exit(0)
             }
 
             note(`cd ${selectRepoLocalPath}`, "Next steps")
+
             outro(
                 `Problems? ${pc.underline(
                     pc.cyan("https://github.com/zxf4399/mgre/issues")
