@@ -16,8 +16,7 @@ jobs:
             - name: "Setup Node.js"
               uses: actions/setup-node@v3
               with:
-                  node-version-file: ".nvmrc"
-
+                  node-version: 18
             - name: "Setup pnpm"
               uses: pnpm/action-setup@v2
               with:
