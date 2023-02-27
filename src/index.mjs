@@ -3,8 +3,7 @@ import { Command } from "commander"
 import db from "#db"
 import pkg from "#pkg"
 
-import CloneCommand from "./commands/clone.mjs"
-import { findCommand } from "./commands/index.mjs"
+import { cloneCommand, findCommand } from "./commands/index.mjs"
 
 const program = new Command()
 
@@ -16,14 +15,14 @@ function setUpProgram() {
         .description(
             "Clone a Git repository using a specified URL and store it in a newly created directory with a standard name"
         )
-        .action((url) => CloneCommand.getInstance().run(url))
+        .action(cloneCommand.run.bind(cloneCommand))
 
     program
-        .command("find <repoLocalPath>")
+        .command("find <localRepoPath>")
         .description(
             "Find a Git repository by its local path, supports fuzzy search"
         )
-        .action(findCommand.run)
+        .action(findCommand.run.bind(findCommand))
 
     program.parse(process.argv)
 }

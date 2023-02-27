@@ -9,13 +9,13 @@ class FindCommand {
         try {
             const repoLocalPaths = await db.get(search)
 
-            intro("Found the repoLocalPath in the database.")
+            intro("Found the localRepoPath in the database.")
 
             const selectRepoLocalPath = await select({
-                message: "Select a repoLocalPath",
+                message: "Select a localRepoPath",
                 options: repoLocalPaths.map((item) => ({
-                    label: item.repo_local_path,
-                    value: item.repo_local_path,
+                    label: item.local_repo_path,
+                    value: item.local_repo_path,
                 })),
             })
 
@@ -36,7 +36,7 @@ class FindCommand {
             )
         } catch (error) {
             logger.error(
-                `Can not find the repoLocalPath: ${search} in the database.`
+                `Can not find the localRepoPath: ${search} in the database.`
             )
         }
     }

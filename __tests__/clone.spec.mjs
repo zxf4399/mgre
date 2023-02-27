@@ -12,13 +12,14 @@ import {
 } from "./utils.mjs"
 
 describe("clone command", () => {
-    test("Store the content of the Git repository in a directory with a standard name", () => {
+    test("Store the contents of the Git repository in a directory with a standardized name.", () => {
+        // TODO: Handle errors that may occur when executing the "git clone" command.
         runCloneCommand(MGRE_GIT_REPO_URL)
 
         expect(existsSync(MGRE_REPO_LOCAL_PATH)).toBeTruthy()
     })
 
-    test("the user git config is setted right when clone git repository successfully", () => {
+    test("The Git user config is set correctly when the Git repository is successfully cloned.", () => {
         runCloneCommand(MGRE_GIT_REPO_URL)
 
         execaSync("cd", [MGRE_REPO_LOCAL_PATH])
@@ -27,7 +28,7 @@ describe("clone command", () => {
             .get("codebases")
             ?.find((item) => item.url === "github.com")
 
-        if (codebase.name && codebase.email) {
+        if (codebase?.name && codebase?.email) {
             const { stdout: userName } = execaSync("git", [
                 "config",
                 "user.name",
@@ -44,11 +45,11 @@ describe("clone command", () => {
         }
     })
 
-    test("print a failure log when the standard name directory already exists ", () => {
+    test("Output a failure log when a directory with a standardized name already exists.", () => {
         runCloneCommand(MGRE_GIT_REPO_URL)
 
         const childProcessResult = runCloneCommand(MGRE_GIT_REPO_URL)
 
-        expect(childProcessResult.stdout).toMatch("Failed to clone repository")
+        expect(childProcessResult.stdout).toMatch("Repository cloning failed")
     })
 })

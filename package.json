@@ -15,6 +15,7 @@
     "license": "MIT",
     "author": "zxf4399",
     "imports": {
+        "#constant": "./src/utils/constant.mjs",
         "#db": "./src/utils/db.mjs",
         "#env": "./src/utils/env.mjs",
         "#config": "./src/utils/config.mjs",
@@ -42,6 +43,7 @@
         "commander": "^10.0.0",
         "execa": "^7.0.0",
         "git-url-parse": "^13.1.0",
+        "lodash-es": "^4.17.21",
         "picocolors": "^1.0.0",
         "sqlite3": "^5.1.4",
         "winston": "^3.8.2"
