@@ -24,6 +24,9 @@
         "import/no-unresolved": "off",
         "import/prefer-default-export": "off",
         "indent": ["error", 4],
+        "no-await-in-loop": "off",
+        "no-console": "off",
+        "no-restricted-syntax": "off",
         "padding-line-between-statements": [
             "error",
             { "blankLine": "always", "prev": "*", "next": "return" },
@@ -42,6 +45,7 @@
             }
         ],
         "simple-import-sort/exports": "error",
-        "simple-import-sort/imports": "error"
+        "simple-import-sort/imports": "error",
+        "sort-keys": "error"
     }
 }

@@ -19,8 +19,6 @@ class Database {
                     reject()
                 }
 
-                logger.debug("Connected to the database successfully.")
-
                 resolve()
             })
         })
@@ -57,8 +55,6 @@ class Database {
                         reject()
                     }
 
-                    logger.debug("Created mgre table successfully.")
-
                     resolve()
                 }
             )
@@ -73,8 +69,6 @@ class Database {
                 if (err) {
                     logger.error(err.message)
                 }
-
-                logger.debug("Added localRepoPath successfully.")
             }
         )
     }

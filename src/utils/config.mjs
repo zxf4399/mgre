@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from "node:fs"
 import { writeFile } from "node:fs/promises"
 
-import { mergeWith } from "lodash-es"
+import { merge } from "lodash-es"
 
 import { CONFIG_PATH } from "#constant"
 
@@ -51,16 +51,7 @@ export class Config {
     async update(data) {
         await writeFile(
             CONFIG_PATH,
-            JSON.stringify(
-                // eslint-disable-next-line consistent-return
-                mergeWith(this.config, data, (objValue, srcValue) => {
-                    if (Array.isArray(objValue)) {
-                        return objValue.concat(srcValue)
-                    }
-                }),
-                null,
-                2
-            )
+            JSON.stringify(merge(this.config, data), null, 2)
         )
     }
 }
