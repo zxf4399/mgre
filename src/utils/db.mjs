@@ -1,8 +1,7 @@
 import sqlite3 from "sqlite3"
 
+import { DB_PATH } from "#constant"
 import logger from "#logger"
-
-const FILE_NAME = "mgre.db"
 
 class Database {
     async init() {
@@ -13,7 +12,7 @@ class Database {
 
     #connect() {
         return new Promise((resolve, reject) => {
-            this.db = new sqlite3.Database(FILE_NAME, (err) => {
+            this.db = new sqlite3.Database(DB_PATH, (err) => {
                 if (err) {
                     logger.error(err.message)
 
