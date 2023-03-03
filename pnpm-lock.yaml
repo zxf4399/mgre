@@ -3,6 +3,8 @@ lockfileVersion: 5.4
 specifiers:
     "@clack/prompts": ^0.6.0
     "@jest/globals": ^29.4.3
+    chalk: ^5.2.0
+    cli-progress: ^3.12.0
     clipboardy: ^3.0.0
     commander: ^10.0.0
     cross-env: ^7.0.3
@@ -26,6 +28,8 @@ specifiers:
 dependencies:
     "@clack/prompts": 0.6.0
     "@jest/globals": 29.4.3
+    chalk: 5.2.0
+    cli-progress: 3.12.0
     clipboardy: 3.0.0
     commander: 10.0.0
     execa: 7.0.0
@@ -2012,7 +2016,6 @@ packages:
                 integrity: sha512-ree3Gqw/nazQAPuJJEy+avdl7QfZMcUvmHIKgEZkGL+xOBzRvup5Hxo6LHuMceSxOabuJLJm5Yp/92R9eMmMvA==,
             }
         engines: { node: ^12.17.0 || ^14.13 || >=16.0.0 }
-        dev: true
 
     /char-regex/1.0.2:
         resolution:
@@ -2070,6 +2073,16 @@ packages:
         dependencies:
             restore-cursor: 3.1.0
         dev: true
+
+    /cli-progress/3.12.0:
+        resolution:
+            {
+                integrity: sha512-tRkV3HJ1ASwm19THiiLIXLO7Im7wlTuKnvkYaTkyoAPefqjNg7W7DHKUlGRxy9vxDvbyCYQkQozvptuMkGCg8A==,
+            }
+        engines: { node: ">=4" }
+        dependencies:
+            string-width: 4.2.3
+        dev: false
 
     /cli-table3/0.6.3:
         resolution:

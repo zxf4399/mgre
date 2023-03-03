@@ -5,9 +5,9 @@ import db from "#db"
 import logger from "#logger"
 
 class FindCommand {
-    async run(search) {
+    async run(localRepoPath) {
         try {
-            const repoLocalPaths = await db.get(search)
+            const repoLocalPaths = await db.get(localRepoPath)
 
             intro("Found the localRepoPath in the database.")
 
@@ -36,7 +36,7 @@ class FindCommand {
             )
         } catch (error) {
             logger.error(
-                `Can not find the localRepoPath: ${search} in the database.`
+                `Can not find the localRepoPath: ${localRepoPath} in the database.`
             )
         }
     }

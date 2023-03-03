@@ -10,10 +10,7 @@
             "name": "Debug mgre clone",
             "skipFiles": ["<node_internals>/**"],
             "program": "${workspaceFolder}/src/index.mjs",
-            "args": ["clone", "${input:cloneGitUrl}"],
-            "env": {
-                "NODE_ENV": "development"
-            }
+            "args": ["clone", "${input:cloneGitUrl}"]
         },
         {
             "type": "node",
@@ -21,10 +18,7 @@
             "name": "Debug mgre find",
             "skipFiles": ["<node_internals>/**"],
             "program": "${workspaceFolder}/src/index.mjs",
-            "args": ["find", "${input:findLocalRepoPath}"],
-            "env": {
-                "NODE_ENV": "development"
-            }
+            "args": ["find", "${input:findLocalRepoPath}"]
         },
         {
             "type": "node",
@@ -33,10 +27,7 @@
             "skipFiles": ["<node_internals>/**"],
             "program": "${workspaceFolder}/src/index.mjs",
             "args": ["import", "${input:importBaseDir}"],
-            "console": "integratedTerminal",
-            "env": {
-                "NODE_ENV": "development"
-            }
+            "console": "integratedTerminal"
         }
     ],
     "inputs": [
