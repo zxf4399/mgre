@@ -1,0 +1,59 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug mgre clone",
+            "skipFiles": ["<node_internals>/**"],
+            "program": "${workspaceFolder}/src/index.mjs",
+            "args": ["clone", "${input:cloneGitUrl}}"],
+            "env": {
+                "NODE_ENV": "development"
+            }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug mgre find",
+            "skipFiles": ["<node_internals>/**"],
+            "program": "${workspaceFolder}/src/index.mjs",
+            "args": ["find", "${input:findLocalRepoPath}}"],
+            "env": {
+                "NODE_ENV": "development"
+            }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug mgre import",
+            "skipFiles": ["<node_internals>/**"],
+            "program": "${workspaceFolder}/src/index.mjs",
+            "args": ["import", "${input:importBaseDir}}"],
+            "console": "integratedTerminal",
+            "env": {
+                "NODE_ENV": "development"
+            }
+        }
+    ],
+    "inputs": [
+        {
+            "id": "cloneGitUrl",
+            "type": "promptString",
+            "description": "Git URL to clone"
+        },
+        {
+            "id": "findLocalRepoPath",
+            "type": "promptString",
+            "description": "Local repository path to find"
+        },
+        {
+            "id": "importBaseDir",
+            "type": "promptString",
+            "description": "Base directory to import"
+        }
+    ]
+}
