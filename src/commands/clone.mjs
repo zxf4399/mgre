@@ -8,14 +8,14 @@ import clipboardy from "clipboardy"
 import { execa } from "execa"
 import GitUrlParse from "git-url-parse"
 
-import config from "#config"
-import { CONFIG_FIELDS, CONFIG_FILE_PATH, DEFAULT_CONFIG } from "#constant"
+import { mgreConfig } from "#config"
+import { CONFIG_FIELDS, DEFAULT_CONFIG, MGRE_CONFIG_FILE_PATH } from "#constant"
 import db from "#db"
 import logger from "#logger"
 
 class CloneCommand {
     getCodebase(resource) {
-        return config.get(CONFIG_FIELDS.CODEBASES)?.[resource]
+        return mgreConfig.get(CONFIG_FIELDS.CODEBASES)?.[resource]
     }
 
     isValidCodebase(codebase) {
@@ -114,7 +114,7 @@ class CloneCommand {
 
     async checkCodebaseExists(resource) {
         try {
-            await access(CONFIG_FILE_PATH)
+            await access(MGRE_CONFIG_FILE_PATH)
 
             const codebase = this.getCodebase(resource)
 
@@ -128,15 +128,14 @@ class CloneCommand {
         }
     }
 
-    async updateConfigFile(group, resource) {
+    saveConfigFile(group, resource) {
         if (group === null) return
 
-        await config.update({
-            [CONFIG_FIELDS.CODEBASES]: {
-                [resource]: {
-                    email: group.email,
-                    name: group.name,
-                },
+        mgreConfig.set(CONFIG_FIELDS.CODEBASES, {
+            ...mgreConfig.get(CONFIG_FIELDS.CODEBASES),
+            [resource]: {
+                email: group.email,
+                name: group.name,
             },
         })
     }
@@ -168,7 +167,7 @@ class CloneCommand {
         if (!codebaseExists) {
             const group = await this.popupPrompts(resource, localRepoPath)
 
-            await this.updateConfigFile(group, resource)
+            this.saveConfigFile(group, resource)
         }
 
         return new Promise((resolve) => {

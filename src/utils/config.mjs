@@ -1,59 +1,54 @@
-import { existsSync, readFileSync } from "node:fs"
-import { writeFile } from "node:fs/promises"
+import { existsSync, readFileSync, writeFileSync } from "node:fs"
 
-import { merge } from "lodash-es"
+import { MGRE_CONFIG_FILE_PATH } from "#constant"
 
-import { CONFIG_FILE_PATH } from "#constant"
+class Config {
+    constructor(configFilePath) {
+        this.configFilePath = configFilePath
 
-/**
- * The Config class provides methods for accessing and modifying the application's configuration file.
- */
-export class Config {
-    /**
-     * Returns the entire configuration object.
-     *
-     * @returns {Object} - The entire configuration object.
-     */
-    getUserConfig() {
-        let userConfig = {}
+        this.map = new Map()
 
-        if (existsSync(CONFIG_FILE_PATH)) {
-            userConfig = JSON.parse(readFileSync(CONFIG_FILE_PATH, "utf-8"))
+        this.loadConfig()
+    }
+
+    loadConfig() {
+        let configData = {}
+
+        if (existsSync(this.configFilePath)) {
+            configData = JSON.parse(readFileSync(this.configFilePath, "utf-8"))
         }
 
-        return userConfig
+        for (const [key, value] of Object.entries(configData)) {
+            this.map.set(key, value)
+        }
     }
 
-    /**
-     * Constructs a new Config object and initializes the configuration data from the file system.
-     */
-    constructor() {
-        this.config = this.getUserConfig()
-    }
-
-    /**
-     * Returns the value of the specified key in the configuration object.
-     *
-     * @param {string} key - The key to retrieve from the configuration object.
-     * @returns {*} - The value of the specified key in the configuration object, or undefined if the key does not exist.
-     */
-    get(key) {
-        return this.config[key]
-    }
-
-    /**
-     * Updates the configuration file with the specified data.
-     *
-     * @async
-     * @param {Object} data - The data to merge into the existing configuration.
-     * @returns {Promise<void>}
-     */
-    async update(data) {
-        await writeFile(
-            CONFIG_FILE_PATH,
-            JSON.stringify(merge(this.config, data), null, 2)
+    saveConfig() {
+        writeFileSync(
+            this.configFilePath,
+            JSON.stringify(Object.fromEntries(this.map.entries()), null, 2)
         )
+    }
+
+    get(key) {
+        return this.map.get(key)
+    }
+
+    set(key, value) {
+        this.map.set(key, value)
+
+        this.saveConfig()
+    }
+
+    delete(key) {
+        this.map.delete(key)
+
+        this.saveConfig()
+    }
+
+    has(key) {
+        return this.map.has(key)
     }
 }
 
-export default new Config()
+export const mgreConfig = new Config(MGRE_CONFIG_FILE_PATH)

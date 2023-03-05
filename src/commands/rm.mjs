@@ -1,6 +1,6 @@
 import { rm } from "node:fs/promises"
 
-import { CONFIG_FILE_PATH, DB_FILE_PATH } from "#constant"
+import { DB_FILE_PATH,MGRE_CONFIG_FILE_PATH } from "#constant"
 
 /**
  *
@@ -15,7 +15,7 @@ class RmCommand {
      * @returns {Promise<void>} - A promise that resolves when the configuration file has been removed.
      */
     async removeConfigFile() {
-        await rm(CONFIG_FILE_PATH, { force: true })
+        await rm(MGRE_CONFIG_FILE_PATH, { force: true })
     }
 
     /**

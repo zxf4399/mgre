@@ -6,7 +6,7 @@ export const DEFAULT_CONFIG = {
     root: join(homedir(), ".mgre"),
 }
 
-export const CONFIG_FILE_PATH = join(
+export const MGRE_CONFIG_FILE_PATH = join(
     DEFAULT_CONFIG.root,
     DEFAULT_CONFIG.filename
 )
