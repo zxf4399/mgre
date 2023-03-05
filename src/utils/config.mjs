@@ -3,7 +3,7 @@ import { writeFile } from "node:fs/promises"
 
 import { merge } from "lodash-es"
 
-import { CONFIG_PATH } from "#constant"
+import { CONFIG_FILE_PATH } from "#constant"
 
 /**
  * The Config class provides methods for accessing and modifying the application's configuration file.
@@ -17,8 +17,8 @@ export class Config {
     getUserConfig() {
         let userConfig = {}
 
-        if (existsSync(CONFIG_PATH)) {
-            userConfig = JSON.parse(readFileSync(CONFIG_PATH, "utf-8"))
+        if (existsSync(CONFIG_FILE_PATH)) {
+            userConfig = JSON.parse(readFileSync(CONFIG_FILE_PATH, "utf-8"))
         }
 
         return userConfig
@@ -50,7 +50,7 @@ export class Config {
      */
     async update(data) {
         await writeFile(
-            CONFIG_PATH,
+            CONFIG_FILE_PATH,
             JSON.stringify(merge(this.config, data), null, 2)
         )
     }
