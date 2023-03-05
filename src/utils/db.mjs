@@ -1,6 +1,6 @@
 import sqlite3 from "sqlite3"
 
-import { DB_PATH } from "#constant"
+import { DB_FILE_PATH } from "#constant"
 import logger from "#logger"
 
 class Database {
@@ -12,7 +12,7 @@ class Database {
 
     #connect() {
         return new Promise((resolve, reject) => {
-            this.db = new sqlite3.Database(DB_PATH, (err) => {
+            this.db = new sqlite3.Database(DB_FILE_PATH, (err) => {
                 if (err) {
                     logger.error(err.message)
 

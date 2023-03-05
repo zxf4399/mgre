@@ -8,10 +8,10 @@ import {
 
 import { afterAll, beforeAll } from "@jest/globals"
 
-import { CONFIG_PATH } from "#constant"
+import { CONFIG_FILE_PATH } from "#constant"
 import db from "#db"
 
-const BAK_FILE_PATH = `${CONFIG_PATH}.bak`
+const BAK_FILE_PATH = `${CONFIG_FILE_PATH}.bak`
 
 const DATA = {
     codebases: [
@@ -26,19 +26,19 @@ const DATA = {
 beforeAll(async () => {
     await db.init()
 
-    if (existsSync(CONFIG_PATH)) {
-        copyFileSync(CONFIG_PATH, BAK_FILE_PATH)
+    if (existsSync(CONFIG_FILE_PATH)) {
+        copyFileSync(CONFIG_FILE_PATH, BAK_FILE_PATH)
     }
 
-    writeFileSync(CONFIG_PATH, JSON.stringify(DATA, null, 2), "utf-8")
+    writeFileSync(CONFIG_FILE_PATH, JSON.stringify(DATA, null, 2), "utf-8")
 })
 
 afterAll(async () => {
     await db.close()
 
     if (existsSync(BAK_FILE_PATH)) {
-        rmSync(CONFIG_PATH, { force: true })
+        rmSync(CONFIG_FILE_PATH, { force: true })
 
-        renameSync(BAK_FILE_PATH, CONFIG_PATH)
+        renameSync(BAK_FILE_PATH, CONFIG_FILE_PATH)
     }
 })

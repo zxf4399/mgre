@@ -9,7 +9,7 @@ import { execa } from "execa"
 import GitUrlParse from "git-url-parse"
 
 import config from "#config"
-import { CONFIG_FIELDS, CONFIG_PATH, DEFAULT_CONFIG } from "#constant"
+import { CONFIG_FIELDS, CONFIG_FILE_PATH, DEFAULT_CONFIG } from "#constant"
 import db from "#db"
 import logger from "#logger"
 
@@ -114,7 +114,7 @@ class CloneCommand {
 
     async checkCodebaseExists(resource) {
         try {
-            await access(CONFIG_PATH)
+            await access(CONFIG_FILE_PATH)
 
             const codebase = this.getCodebase(resource)
 
