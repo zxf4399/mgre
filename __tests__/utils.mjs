@@ -23,3 +23,5 @@ export const runCloneCommand = (gitUrl) =>
 
 export const runFindCommand = (localRepoPath) =>
     execa("node", [CLI_PATH, "find", localRepoPath])
+
+export const runRmCommand = () => execa("node", [CLI_PATH, "rm"])

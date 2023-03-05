@@ -1,39 +1,16 @@
 import { rm } from "node:fs/promises"
 
-import { DB_FILE_PATH,MGRE_CONFIG_FILE_PATH } from "#constant"
+import { DB_FILE_PATH, MGRE_CONFIG_FILE_PATH } from "#constant"
 
-/**
- *
- * Removes configuration file and database file.
- * @class
- */
 class RmCommand {
-    /**
-     * Removes configuration file
-     *
-     * @async
-     * @returns {Promise<void>} - A promise that resolves when the configuration file has been removed.
-     */
     async removeConfigFile() {
         await rm(MGRE_CONFIG_FILE_PATH, { force: true })
     }
 
-    /**
-     * Removes database file
-     *
-     * @async
-     * @returns {Promise<void>} - A promise that resolves when the database file has been removed.
-     */
     async removeDatabaseFile() {
         await rm(DB_FILE_PATH, { force: true })
     }
 
-    /**
-     * Removes configuration file and database file
-     *
-     * @async
-     * @returns {Promise<void>} - A promise that resolves when the configuration file and database file have been removed.
-     */
     async run() {
         await Promise.all([this.removeConfigFile(), this.removeDatabaseFile()])
     }
