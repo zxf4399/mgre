@@ -2,7 +2,6 @@ import { access } from "node:fs/promises"
 import { join } from "node:path"
 
 import * as p from "@clack/prompts"
-import { cancel, isCancel } from "@clack/prompts"
 import chalk from "chalk"
 import clipboardy from "clipboardy"
 import { execa } from "execa"
@@ -59,8 +58,8 @@ class CloneCommand {
             message: "Would you like to skip configuring Git user info?",
         })
 
-        if (isCancel(skipGitConfig)) {
-            cancel(
+        if (p.isCancel(skipGitConfig)) {
+            p.cancel(
                 chalk.red(
                     `Clone operation cancelled by user. To retry, run ${chalk.bold(
                         this.options.from === "import"
