@@ -49,15 +49,19 @@ class ImportCommand {
 
         await Promise.all(
             gitRepoPaths.map(async (gitRepoPath) => {
-                const { stdout } = await execa(
-                    "git",
-                    ["config", "--get", "remote.origin.url"],
-                    {
-                        cwd: gitRepoPath,
-                    }
-                )
+                try {
+                    const { stdout } = await execa(
+                        "git",
+                        ["config", "--get", "remote.origin.url"],
+                        {
+                            cwd: gitRepoPath,
+                        }
+                    )
 
-                remoteOriginUrls.push(stdout)
+                    remoteOriginUrls.push(stdout)
+                } catch (error) {
+                    /* empty */
+                }
             })
         )
 
