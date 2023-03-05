@@ -63,31 +63,73 @@ mgre will automatically create it in your home directory. For example, on MacOS 
 ### Clone a repository
 
 ```bash
+# support clone pattern like git clone
 mgre clone https://github.com/zxf4399/mgre.git
 # or
 mgre clone git@github.com:zxf4399/mgre.git
-# or
-mgre clone https://gitlab.com/zxf4399/mgre.git
-# or other git repository
 ```
 
-If the cloning is successful:
+After cloning, the repository will be moved to the base directory
 
--   By default, the repository will be cloned to the base directory `join(homedir(), ".mgre")`, with the option to prompt for a different location."
-
--   the repository will be configured with the correct username and email if `config.json` contain name and email fields for configuring codebases.
+```bash
+.
+├── config.json
+├── github.com
+│   └── zxf4399
+│       └── mgre
+└── mgre.db
+```
 
 ### Find a repository
 
 ```bash
+# find support fuzzy search
 mgre find zxf4399/mgre
 ```
 
-If the repository is found:
+If the repository is located, its path will be displayed; otherwise, no output will be generated.
 
--   mgre will show the local path of the repository.
+### Import existing repositories
 
-// TODO: add image
+If you have an existing repository that you want to import into mgre, you can use the import command.
+
+```bash
+# For example, if the repository's local path is ~/code/mgre
+mgre import ~/code/mgre
+```
+
+After importing, the repository will be moved to the base directory
+
+```bash
+.
+├── config.json
+├── github.com
+│   └── zxf4399
+│       └── mgre
+└── mgre.db
+```
+
+If you want to import multiple repositories, you can import them parent directory.
+
+```bash
+# For example, if the repository A's local path is ~/code/mgre
+# and the repository B's local path is ~/code/zxf4399.github.io
+
+mgre import ~/code
+```
+
+After importing, the repositories will be moved to the base directory
+
+```bash
+.
+├── config.json
+├── github.com
+│   └── zxf4399
+│       ├── mgre
+│       └── zxf4399.github.io
+└── mgre.db
+
+```
 
 ## Inspiration
 
