@@ -12,7 +12,3 @@ export const MGRE_CONFIG_FILE_PATH = join(
 )
 
 export const DB_FILE_PATH = join(DEFAULT_CONFIG.root, "mgre.db")
-
-export const CONFIG_FIELDS = {
-    CODEBASES: "codebases",
-}

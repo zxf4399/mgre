@@ -52,3 +52,8 @@ class Config {
 }
 
 export const mgreConfig = new Config(MGRE_CONFIG_FILE_PATH)
+
+export const MGRE_CONIFG_FIELDS = {
+    BASE: "base",
+    CODEBASES: "codebases",
+}

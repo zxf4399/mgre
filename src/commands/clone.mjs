@@ -7,14 +7,14 @@ import clipboardy from "clipboardy"
 import { execa } from "execa"
 import GitUrlParse from "git-url-parse"
 
-import { mgreConfig } from "#config"
-import { CONFIG_FIELDS, DEFAULT_CONFIG, MGRE_CONFIG_FILE_PATH } from "#constant"
+import { MGRE_CONIFG_FIELDS, mgreConfig } from "#config"
+import { DEFAULT_CONFIG, MGRE_CONFIG_FILE_PATH } from "#constant"
 import db from "#db"
 import logger from "#logger"
 
 class CloneCommand {
     getCodebase(resource) {
-        return mgreConfig.get(CONFIG_FIELDS.CODEBASES)?.[resource]
+        return mgreConfig.get(MGRE_CONIFG_FIELDS.CODEBASES)?.[resource]
     }
 
     isValidCodebase(codebase) {
@@ -53,21 +53,23 @@ class CloneCommand {
         }
     }
 
-    async popupPrompts(resource, localRepoPath) {
+    get cancelMessage() {
+        return chalk.red(
+            `Clone operation cancelled by user. To retry, run ${chalk.bold(
+                this.options.from === "import"
+                    ? `mgre import ${this.options.baseDir}`
+                    : `mgre clone ${this.gitUrl}`
+            )}`
+        )
+    }
+
+    async popupGitConfigPrompts(resource) {
         const skipGitConfig = await p.confirm({
             message: "Would you like to skip configuring Git user info?",
         })
 
         if (p.isCancel(skipGitConfig)) {
-            p.cancel(
-                chalk.red(
-                    `Clone operation cancelled by user. To retry, run ${chalk.bold(
-                        this.options.from === "import"
-                            ? `mgre import ${this.options.baseDir}`
-                            : `mgre clone ${localRepoPath}`
-                    )}`
-                )
-            )
+            p.cancel(this.cancelMessage)
 
             process.exit(0)
         }
@@ -99,9 +101,7 @@ class CloneCommand {
             },
             {
                 onCancel: () => {
-                    p.cancel(
-                        `Clone operation cancelled by user. To retry, run 'mgre clone ${localRepoPath}'.`
-                    )
+                    p.cancel(this.cancelMessage)
 
                     process.exit(0)
                 },
@@ -130,8 +130,8 @@ class CloneCommand {
     saveConfigFile(group, resource) {
         if (group === null) return
 
-        mgreConfig.set(CONFIG_FIELDS.CODEBASES, {
-            ...mgreConfig.get(CONFIG_FIELDS.CODEBASES),
+        mgreConfig.set(MGRE_CONIFG_FIELDS.CODEBASES, {
+            ...mgreConfig.get(MGRE_CONIFG_FIELDS.CODEBASES),
             [resource]: {
                 email: group.email,
                 name: group.name,
@@ -145,7 +145,7 @@ class CloneCommand {
         const { name, owner, resource } = parsed
 
         const localRepoPath = `${join(
-            DEFAULT_CONFIG.root,
+            mgreConfig.get(MGRE_CONIFG_FIELDS.BASE),
             resource,
             owner,
             name
@@ -154,17 +154,42 @@ class CloneCommand {
         return [resource, localRepoPath]
     }
 
-    async run(gitUrl, options) {
+    checkBaseExists() {
+        return !!mgreConfig.get(MGRE_CONIFG_FIELDS.BASE)
+    }
+
+    async popupBasePrompt() {
+        const base = await p.text({
+            initialValue: DEFAULT_CONFIG.root,
+            message: `What is the base directory`,
+        })
+
+        if (p.isCancel(base)) {
+            p.cancel(this.cancelMessage)
+
+            process.exit(0)
+        }
+
+        mgreConfig.set(MGRE_CONIFG_FIELDS.BASE, base)
+    }
+
+    async run(gitUrl, options = {}) {
         this.gitUrl = gitUrl
 
         this.options = options
+
+        const baseExists = this.checkBaseExists()
+
+        if (!baseExists) {
+            await this.popupBasePrompt()
+        }
 
         const [resource, localRepoPath] = this.parseGitUrl()
 
         const codebaseExists = await this.checkCodebaseExists(resource)
 
         if (!codebaseExists) {
-            const group = await this.popupPrompts(resource, localRepoPath)
+            const group = await this.popupGitConfigPrompts(resource)
 
             this.saveConfigFile(group, resource)
         }

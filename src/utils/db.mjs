@@ -1,6 +1,8 @@
+import { access, mkdir } from "node:fs/promises"
+
 import sqlite3 from "sqlite3"
 
-import { DB_FILE_PATH } from "#constant"
+import { DB_FILE_PATH, DEFAULT_CONFIG } from "#constant"
 import logger from "#logger"
 
 class Database {
@@ -10,7 +12,13 @@ class Database {
         await this.#create()
     }
 
-    #connect() {
+    async #connect() {
+        try {
+            await access(DEFAULT_CONFIG.root)
+        } catch (error) {
+            await mkdir(DEFAULT_CONFIG.root)
+        }
+
         return new Promise((resolve, reject) => {
             this.db = new sqlite3.Database(DB_FILE_PATH, (err) => {
                 if (err) {
