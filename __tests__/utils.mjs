@@ -1,7 +1,7 @@
 import { join } from "node:path"
 import { cwd } from "node:process"
 
-import { execaSync } from "execa"
+import { execa } from "execa"
 
 import { DEFAULT_CONFIG } from "#constant"
 
@@ -18,8 +18,8 @@ export const MGRE_REPO_LOCAL_PATH = join(
 
 export const MGRE_GIT_REPO_URL = `https://github.com/${MGRE}.git`
 
-export const runCloneCommand = (url) =>
-    execaSync("node", [CLI_PATH, "clone", url])
+export const runCloneCommand = (gitUrl) =>
+    execa("node", [CLI_PATH, "clone", gitUrl])
 
-export const runFindCommand = (search) =>
-    execaSync("node", [CLI_PATH, "find", search])
+export const runFindCommand = (localRepoPath) =>
+    execa("node", [CLI_PATH, "find", localRepoPath])

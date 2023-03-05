@@ -1,44 +1,52 @@
 import {
-    copyFileSync,
-    existsSync,
-    renameSync,
-    rmSync,
-    writeFileSync,
-} from "node:fs"
+    access,
+    copyFile,
+    mkdir,
+    rename,
+    rm,
+    writeFile,
+} from "node:fs/promises"
 
 import { afterAll, beforeAll } from "@jest/globals"
 
-import { MGRE_CONFIG_FILE_PATH } from "#constant"
-import db from "#db"
+import { DEFAULT_CONFIG, MGRE_CONFIG_FILE_PATH } from "#constant"
 
-const BAK_FILE_PATH = `${MGRE_CONFIG_FILE_PATH}.bak`
+const MGRE_CONFIG_BAK_FILE_PATH = `${MGRE_CONFIG_FILE_PATH}.bak`
 
 const DATA = {
-    codebases: [
-        {
+    base: DEFAULT_CONFIG.root,
+    codebases: {
+        "github.com": {
             email: "zxf4399@gmail.com",
             name: "zxf4399",
-            url: "github.com",
         },
-    ],
+    },
 }
 
 beforeAll(async () => {
-    await db.init()
+    try {
+        await access(MGRE_CONFIG_FILE_PATH)
 
-    if (existsSync(MGRE_CONFIG_FILE_PATH)) {
-        copyFileSync(MGRE_CONFIG_FILE_PATH, BAK_FILE_PATH)
+        await copyFile(MGRE_CONFIG_FILE_PATH, MGRE_CONFIG_BAK_FILE_PATH)
+    } catch (error) {
+        await mkdir(DEFAULT_CONFIG.root)
     }
 
-    writeFileSync(MGRE_CONFIG_FILE_PATH, JSON.stringify(DATA, null, 2), "utf-8")
+    await writeFile(
+        MGRE_CONFIG_FILE_PATH,
+        JSON.stringify(DATA, null, 2),
+        "utf-8"
+    )
 })
 
 afterAll(async () => {
-    await db.close()
+    try {
+        await access(MGRE_CONFIG_BAK_FILE_PATH)
 
-    if (existsSync(BAK_FILE_PATH)) {
-        rmSync(MGRE_CONFIG_FILE_PATH, { force: true })
+        await rm(MGRE_CONFIG_FILE_PATH, { force: true })
 
-        renameSync(BAK_FILE_PATH, MGRE_CONFIG_FILE_PATH)
+        await rename(MGRE_CONFIG_BAK_FILE_PATH, MGRE_CONFIG_FILE_PATH)
+    } catch (error) {
+        /* empty */
     }
 })
