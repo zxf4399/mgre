@@ -66,10 +66,14 @@ mgre will automatically create it in your home directory. For example, on MacOS 
 mgre clone https://github.com/zxf4399/mgre.git
 # or
 mgre clone git@github.com:zxf4399/mgre.git
-# or gitlab repository
+# or
+mgre clone https://gitlab.com/zxf4399/mgre.git
+# or other git repository
 ```
 
 If the cloning is successful:
+
+-   By default, the repository will be cloned to the base directory `join(homedir(), ".mgre")`, with the option to prompt for a different location."
 
 -   the repository will be configured with the correct username and email if `config.json` contain name and email fields for configuring codebases.
 
