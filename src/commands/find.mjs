@@ -1,5 +1,8 @@
-import chalk from "chalk"
+import { rm, writeFile } from "node:fs/promises"
 
+import { execa } from "execa"
+
+import { FIND_OUTPUT_FILE_PATH } from "#constant"
 import db from "#db"
 
 class FindCommand {
@@ -10,11 +13,17 @@ class FindCommand {
             process.exit(0)
         }
 
-        console.log(
-            chalk.cyan(
-                repoLocalPaths.map((item) => item.local_repo_path).join("\n")
-            )
+        await writeFile(
+            FIND_OUTPUT_FILE_PATH,
+            repoLocalPaths.map((item) => item.local_repo_path).join("\n"),
+            "utf-8"
         )
+
+        await execa("grep", [localRepoPath, FIND_OUTPUT_FILE_PATH, "--color"], {
+            stdio: "inherit",
+        })
+
+        rm(FIND_OUTPUT_FILE_PATH, { force: true })
     }
 }
 
