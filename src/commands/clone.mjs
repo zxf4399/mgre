@@ -3,7 +3,6 @@ import { join } from "node:path"
 
 import * as p from "@clack/prompts"
 import chalk from "chalk"
-import clipboardy from "clipboardy"
 import { execa } from "execa"
 import GitUrlParse from "git-url-parse"
 
@@ -198,8 +197,6 @@ class CloneCommand {
             execa("git", ["clone", this.gitUrl, localRepoPath, "--progress"])
                 .on("close", async (code) => {
                     if (code === 0) {
-                        clipboardy.writeSync(`cd ${localRepoPath}`)
-
                         await this.setUserConfig(resource, localRepoPath)
 
                         db.add(localRepoPath)
