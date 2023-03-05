@@ -77,12 +77,25 @@ class CloneCommand {
             return null
         }
 
-        const { stdout: username } = await execa("git", ["config", "user.name"])
+        let username
 
-        const { stdout: useremail } = await execa("git", [
-            "config",
-            "user.email",
-        ])
+        let useremail
+
+        try {
+            const { stdout } = await execa("git", ["config", "user.name"])
+
+            username = stdout
+        } catch (error) {
+            /* empty */
+        }
+
+        try {
+            const { stdout } = await execa("git", ["config", "user.email"])
+
+            useremail = stdout
+        } catch (error) {
+            /* empty */
+        }
 
         const group = await p.group(
             {
