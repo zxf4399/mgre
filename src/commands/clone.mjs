@@ -9,7 +9,6 @@ import GitUrlParse from "git-url-parse"
 import { MGRE_CONIFG_FIELDS, mgreConfig } from "#config"
 import { DEFAULT_CONFIG, MGRE_CONFIG_FILE_PATH } from "#constant"
 import db from "#db"
-import logger from "#logger"
 
 class CloneCommand {
     getCodebase(resource) {
@@ -24,31 +23,21 @@ class CloneCommand {
         const codebase = this.getCodebase(resource)
 
         if (this.isValidCodebase(codebase)) {
-            try {
-                await Promise.all([
-                    execa(
-                        "git",
-                        ["config", "--replace-all", "user.name", codebase.name],
-                        {
-                            cwd: localRepoPath,
-                        }
-                    ),
-                    execa(
-                        "git",
-                        [
-                            "config",
-                            "--replace-all",
-                            "user.email",
-                            codebase.email,
-                        ],
-                        {
-                            cwd: localRepoPath,
-                        }
-                    ),
-                ])
-            } catch (error) {
-                logger.error(error.message)
-            }
+            await execa(
+                "git",
+                ["config", "--replace-all", "user.name", codebase.name],
+                {
+                    cwd: localRepoPath,
+                }
+            )
+
+            await execa(
+                "git",
+                ["config", "--replace-all", "user.email", codebase.email],
+                {
+                    cwd: localRepoPath,
+                }
+            )
         }
     }
 
