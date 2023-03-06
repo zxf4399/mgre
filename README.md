@@ -72,7 +72,7 @@ mgre clone git@github.com:zxf4399/mgre.git
 After cloning, the repository will be moved to the base directory
 
 ```bash
-.
+base
 ├── config.json
 ├── github.com
 │   └── zxf4399
@@ -101,7 +101,7 @@ mgre import ~/code/mgre
 After importing, the repository will be moved to the base directory
 
 ```bash
-.
+base
 ├── config.json
 ├── github.com
 │   └── zxf4399
@@ -121,7 +121,7 @@ mgre import ~/code
 After importing, the repositories will be moved to the base directory
 
 ```bash
-.
+base
 ├── config.json
 ├── github.com
 │   └── zxf4399
