@@ -7,7 +7,7 @@
 
 ## Why mgre?
 
-When you use git clone to clone a repository, the repository will be cloned to the current directory if you don't specify a directory. This means that you may need to determine the appropriate directory in which to clone the repository and set up the repository correct username and email to commit. While this may be easy to do once, git clone is often used, and the process can become time-consuming.
+When you use git to clone a repository, the repository will be cloned to the current directory if you don't specify a directory. This means that you may need to determine the appropriate directory in which to clone the repository and set up the repository correct username and email to commit. While this may be easy to do once, git clone is often used, and the process can become time-consuming.
 
 To resolve this problem, you can use mgre. With mgre, your directory structure will automatically be organized as follows:
 
