@@ -3,6 +3,7 @@ import { join } from "node:path"
 
 import * as p from "@clack/prompts"
 import chalk from "chalk"
+import clipboard from "clipboardy"
 import { execa } from "execa"
 import GitUrlParse from "git-url-parse"
 
@@ -41,10 +42,14 @@ class CloneCommand {
         }
     }
 
+    get isOptionsFromImport() {
+        return this.options.from === "import"
+    }
+
     get cancelMessage() {
         return chalk.red(
             `Clone operation cancelled by user. To retry, run ${chalk.bold(
-                this.options.from === "import"
+                this.isOptionsFromImport
                     ? `mgre import ${this.options.baseDir}`
                     : `mgre clone ${this.gitUrl}`
             )}`
@@ -202,6 +207,16 @@ class CloneCommand {
                         await this.setUserConfig(resource, localRepoPath)
 
                         db.add(localRepoPath)
+
+                        if (!this.isOptionsFromImport) {
+                            await clipboard.write(`cd ${localRepoPath}`)
+
+                            console.log(
+                                `Cloned Local repository path has been copied to clipboard. Use ${chalk.green(
+                                    "CMD/CTRL+V"
+                                )} to paste.`
+                            )
+                        }
                     }
 
                     resolve()
