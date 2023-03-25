@@ -21,24 +21,28 @@ describe("clone command", () => {
     test("The Git user config is set correctly when the Git repository is successfully cloned.", async () => {
         await runCloneCommand(MGRE_GIT_REPO_URL)
 
-        await execa("cd", [MGRE_REPO_LOCAL_PATH])
-
         const codebase = mgreConfig.get(MGRE_CONIFG_FIELDS.CODEBASES)?.[
             "github.com"
         ]
 
         if (codebase?.name && codebase?.email) {
-            const { stdout: username } = await execa("git", [
-                "config",
-                "user.name",
-            ])
+            const { stdout: username } = await execa(
+                "git",
+                ["config", "user.name"],
+                {
+                    cwd: MGRE_REPO_LOCAL_PATH,
+                }
+            )
 
             expect(username).toBe(codebase.name)
 
-            const { stdout: useremail } = await execa("git", [
-                "config",
-                "user.email",
-            ])
+            const { stdout: useremail } = await execa(
+                "git",
+                ["config", "user.email"],
+                {
+                    cwd: MGRE_REPO_LOCAL_PATH,
+                }
+            )
 
             expect(useremail).toBe(codebase.email)
         }
