@@ -8,7 +8,7 @@ import { execa } from "execa"
 import GitUrlParse from "git-url-parse"
 
 import { MGRE_CONIFG_FIELDS, mgreConfig } from "#config"
-import { DEFAULT_CONFIG, MGRE_CONFIG_FILE_PATH } from "#constant"
+import { DEFAULT_CONFIG, isTest, MGRE_CONFIG_FILE_PATH } from "#constant"
 import db from "#db"
 
 class CloneCommand {
@@ -208,7 +208,7 @@ class CloneCommand {
 
                         db.add(localRepoPath)
 
-                        if (!this.isOptionsFromImport) {
+                        if (!this.isOptionsFromImport && !isTest) {
                             await clipboard.write(`cd ${localRepoPath}`)
 
                             console.log(
